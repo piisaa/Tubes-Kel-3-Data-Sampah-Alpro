@@ -1,111 +1,196 @@
+#hana
 # ===== PROGRAM PENGELOLAAN SAMPAH =====
 
-jenis_sampah = []
-jumlah_sampah = []
+data_sampah = []
 
+# ===== MENU UTAMA =====
 def Menu_utama():
-    print("===== MENU UTAMA =====")
+
+    print("\n===== MENU UTAMA =====")
     print("1. Tambah Data Sampah")
     print("2. Lihat Data Sampah")
-    print("3. Ubah Data Sampah")
-    print("4. Hapus Data Sampah")
-    print("5. Tambah Data Daur Ulang")
-    print("6. Cari Data Sampah")
-    print("7. Urutkan Data")
-    print("8. Statistik Sampah & Daur Ulang")
-    print("9. Keluar")
+    print("3. Tambah Data Daur Ulang")
+    print("4. Keluar")
 
-    pilihan = int(input("Masukkan pilihan menu : "))
+    pilihan = input("Masukkan pilihan menu : ")
     return pilihan
 
 
+# ===== TAMBAH DATA SAMPAH =====
 def Tambah_data_sampah():
+
     print("\n===== TAMBAH DATA SAMPAH =====")
-    print("Input jenis sampah sesuai klasifikasi berikut:")
-    print("sisa makanan, sisa buah sayur, sampah tumbuhan")
-    print("plastik, logam, kaca, styrofoam")
-    print("obat, barang elektronik, residu kimia")
 
-    jenis = input("Masukkan jenis sampah : ").lower()
-    jumlah = int(input("Masukkan jumlah sampah (kg): "))
+    # ===== LIST JENIS SAMPAH =====
+    print("Jenis sampah yang tersedia:")
+    print("- sisa makanan")
+    print("- sisa buah sayur")
+    print("- sampah tumbuhan")
+    print("- plastik")
+    print("- logam")
+    print("- kaca")
+    print("- styrofoam")
+    print("- obat")
+    print("- barang elektronik")
+    print("- residu kimia")
 
-    if jenis in ["sisa makanan", "sisa buah sayur", "sampah tumbuhan"]:
-        kategori = "organik"
-    elif jenis in ["plastik", "logam", "kaca", "styrofoam"]:
-        kategori = "anorganik"
-    elif jenis in ["obat", "barang elektronik", "residu kimia"]:
-        kategori = "B3"
-    else:
-        print("Jenis sampah tidak valid!")
+    banyak = int(input("\nBerapa data yang ingin ditambahkan : "))
+
+    for i in range(banyak):
+
+        print("\nData ke-", i + 1)
+
+        jenis = input("Masukkan jenis sampah : ").lower()
+        jumlah = int(input("Masukkan jumlah sampah (kg) : "))
+
+        # ===== KATEGORI SAMPAH =====
+        if jenis in ["sisa makanan", "sisa buah sayur", "sampah tumbuhan"]:
+            kategori = "organik"
+
+        elif jenis in ["plastik", "logam", "kaca", "styrofoam"]:
+            kategori = "anorganik"
+
+        elif jenis in ["obat", "barang elektronik", "residu kimia"]:
+            kategori = "B3"
+
+        else:
+            print("Jenis sampah tidak valid!")
+            continue
+
+
+        # ===== METODE DAUR ULANG =====
+        # UBAH BAGIAN INI SESUAI KEBUTUHAN
+
+        if jenis in ["sisa makanan", "sisa buah sayur", "sampah tumbuhan"]:
+            metode = "Recycle"
+
+        elif jenis in ["plastik", "kaca", "logam"]:
+            metode = "Recycle"
+
+        elif jenis in ["styrofoam"]:
+            metode = "Reduce"
+
+        elif jenis in ["barang elektronik"]:
+            metode = "Reuse"
+
+        elif jenis in ["obat", "residu kimia"]:
+            metode = "Pengolahan limbah B3"
+
+        else:
+            metode = "Metode belum tersedia"
+
+        # =================================
+
+
+        # ===== SIMPAN DATA =====
+        data = {
+            "jenis": jenis,
+            "kategori": kategori,
+            "jumlah": jumlah,
+            "metode": metode
+        }
+
+        data_sampah.append(data)
+
+        print("Data berhasil ditambahkan!")
+
+    print()
+
+
+# ===== LIHAT DATA SAMPAH =====
+def Lihat_data_sampah():
+
+    print("\n===== LIHAT DATA SAMPAH =====")
+
+    if len(data_sampah) == 0:
+        print("Data sampah kosong!")
         return
 
-    jenis_sampah.append(kategori)
-    jumlah_sampah.append(jumlah)
+    total_organik = 0
+    total_anorganik = 0
+    total_B3 = 0
 
-    print("Data berhasil ditambahkan!")
-    print("Jenis:", jenis_sampah)
-    print("Jumlah:", jumlah_sampah)
+    for i in range(len(data_sampah)):
 
+        print(
+            i + 1,
+            "| Jenis :", data_sampah[i]["jenis"],
+            "| Kategori :", data_sampah[i]["kategori"],
+            "| Jumlah :", data_sampah[i]["jumlah"], "kg",
+            "| Metode :", data_sampah[i]["metode"]
+        )
 
-def Lihat_data_sampah():
-    print("\n===== LIHAT DATA SAMPAH =====")
-    if len(jenis_sampah) == 0:
-        print("Data Sampah Kosong!")
-    else:
-        jum_organik = 0
-        jum_anorganik = 0
-        jum_B3 = 0
+        # ===== HITUNG TOTAL =====
+        if data_sampah[i]["kategori"] == "organik":
+            total_organik += data_sampah[i]["jumlah"]
 
-        for i in range(len(jenis_sampah)):
-            if jenis_sampah[i] == "organik":
-                jum_organik += jumlah_sampah[i]
-            elif jenis_sampah[i] == "anorganik":
-                jum_anorganik += jumlah_sampah[i]
-            elif jenis_sampah[i] == "B3":
-                jum_B3 += jumlah_sampah[i]
+        elif data_sampah[i]["kategori"] == "anorganik":
+            total_anorganik += data_sampah[i]["jumlah"]
 
-        print("Jenis Sampah:", jenis_sampah)
-        print("Jumlah Sampah:", jumlah_sampah)
-        print("Total Organik:", jum_organik, "kg")
-        print("Total Anorganik:", jum_anorganik, "kg")
-        print("Total B3:", jum_B3, "kg")
+        elif data_sampah[i]["kategori"] == "B3":
+            total_B3 += data_sampah[i]["jumlah"]
+
+    print("\n===== TOTAL SAMPAH =====")
+    print("Total Organik :", total_organik, "kg")
+    print("Total Anorganik :", total_anorganik, "kg")
+    print("Total B3 :", total_B3, "kg")
 
 
+# ===== DATA DAUR ULANG =====
 def Data_daur_ulang():
+
     print("\n===== DATA DAUR ULANG =====")
-    kategori = input("Masukkan kategori sampah yang ingin didaur ulang (organik/anorganik/B3): ")
-    jumlah2 = int(input("Masukkan jumlah sampah yang ingin didaur ulang: "))
-    metode = input("Masukkan metode daur ulang sampah: ")
+
+    if len(data_sampah) == 0:
+        print("Data sampah kosong!")
+        return
+
+    cari = input("Masukkan jenis sampah yang ingin didaur ulang : ").lower()
+    jumlah_daur = int(input("Masukkan jumlah yang ingin didaur ulang : "))
 
     ditemukan = False
-    for i in range(len(jenis_sampah)):
-        if jenis_sampah[i] == kategori:
-            if jumlah_sampah[i] >= jumlah2:
-                jumlah_sampah[i] -= jumlah2
-                print("Jenis sampah:", jenis_sampah[i])
-                print("Jumlah sampah setelah daur ulang:", jumlah_sampah[i])
-                print("Metode daur ulang:", metode)
+
+    for i in range(len(data_sampah)):
+
+        if data_sampah[i]["jenis"] == cari:
+
+            ditemukan = True
+
+            if data_sampah[i]["jumlah"] >= jumlah_daur:
+
+                data_sampah[i]["jumlah"] -= jumlah_daur
+
+                print("\nData berhasil didaur ulang!")
+                print("Jenis :", data_sampah[i]["jenis"])
+                print("Metode :", data_sampah[i]["metode"])
+                print("Sisa jumlah :", data_sampah[i]["jumlah"], "kg")
+
             else:
                 print("Jumlah sampah tidak mencukupi!")
-            ditemukan = True
+
             break
 
-    if not ditemukan:
+    if ditemukan == False:
         print("Jenis sampah tidak ditemukan!")
 
 
 # ===== MAIN PROGRAM =====
 while True:
+
     pilihan = Menu_utama()
 
-    if pilihan == 1:
+    if pilihan == "1":
         Tambah_data_sampah()
-    elif pilihan == 2:
+
+    elif pilihan == "2":
         Lihat_data_sampah()
-    elif pilihan == 5:
+
+    elif pilihan == "3":
         Data_daur_ulang()
-    elif pilihan == 9:
+
+    elif pilihan == "4":
         print("Program selesai!")
         break
+
     else:
         print("Pilihan salah!\n")
