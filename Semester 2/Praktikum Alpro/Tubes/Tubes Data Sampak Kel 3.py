@@ -10,7 +10,8 @@ def Menu_utama():
     print("1. Tambah Data Sampah")
     print("2. Lihat Data Sampah")
     print("3. Tambah Data Daur Ulang")
-    print("4. Keluar")
+    print("4. Urutkan Data Sampah")
+    print("5. Keluar")
 
     pilihan = input("Masukkan pilihan menu : ")
     return pilihan
@@ -173,6 +174,75 @@ def Data_daur_ulang():
     if ditemukan == False:
         print("Jenis sampah tidak ditemukan!")
 
+#Mau bikin pengurutan#
+def pengurutan_selection ():
+    print("Pengurutan Data Sampah")
+    
+    if len(data_sampah) == 0:
+        print("Data sampah kosong!")
+        return
+    
+    pil = input("berdasarkan jenis atau jumlah?  ").lower()
+    
+
+    if pil == "jenis":
+        urutan = input("Dari terbesar atau terkecil??  ").lower()
+        if urutan == "terkecil":
+            n = len (data_sampah)
+            for j in range (0,n):
+              min_idx = j
+              for k in range (j+1, n):
+                if data_sampah[k]["jenis"] < data_sampah[min_idx]["jenis"]:
+                  min_idx = k
+              data_sampah[j], data_sampah[min_idx] = data_sampah[min_idx], data_sampah[j]
+ 
+
+        elif urutan == "terbesar":
+            n = len (data_sampah)
+            for j in range (0,n):
+              max_idx = j
+              for k in range (j+1,n):
+                if data_sampah[k]["jenis"] > data_sampah[max_idx]["jenis"]:
+                  max_idx = k
+              data_sampah[j], data_sampah[max_idx] = data_sampah[max_idx], data_sampah[j]
+ 
+
+        else:
+            print("pilihan tidak valid!")
+            print("coba lagi")
+    
+            
+    elif pil == "jumlah":
+        urutan = input("Dari terbesar atau terkecil??").lower()
+        if urutan == "terkecil":
+            n = len (data_sampah)
+            for j in range (0,n):
+              min_idx = j
+              for k in range (j+1, n):
+                if data_sampah[k]["jumlah"] < data_sampah[min_idx]["jumlah"]:
+                  min_idx = k
+              data_sampah[j], data_sampah[min_idx] = data_sampah[min_idx], data_sampah[j]
+ 
+
+        elif urutan == "terbesar":
+            n = len (data_sampah)
+            for j in range (0,n):
+              max_idx = j
+              for k in range (j+1, n):
+                if data_sampah[k]["jumlah"] > data_sampah[max_idx]["jumlah"]:
+                  max_idx = k
+              data_sampah[j], data_sampah[max_idx] = data_sampah[max_idx], data_sampah[j]
+
+
+        else:
+            print("pilihan tidak valid!")
+            print("coba lagi")
+
+    else:
+        print("pilihan tidak valid!")
+        print("coba lagi")
+
+    return data_sampah
 
 # ===== MAIN PROGRAM =====
 while True:
@@ -187,8 +257,12 @@ while True:
 
     elif pilihan == "3":
         Data_daur_ulang()
-
+    
     elif pilihan == "4":
+       hasil=pengurutan_selection()
+       print(hasil)
+
+    elif pilihan == "5":
         print("Program selesai!")
         break
 
